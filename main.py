@@ -10,8 +10,22 @@ str_date = tm.strftime('%Y-%m-%d %H:%M:%S', tm.localtime(unix_time))
 # Получение времени в формате гггг-мм-дд чч:мм:сс из unix
 t = tm.strptime(str_date, '%Y-%m-%d %H:%M:%S')
 # print(int(tm.mktime(t)))
-
+key_list = []
 key = "".join(OrderedDict.fromkeys(str(unix_time)))
+
+
+def generate_key(key):
+
+    print(f'key: {key}')
+    n = 1
+    for i in key:
+        key_list.append(int(i) * n)
+        n += 1
+    return(key_list)
+    #print(f'key: {key_list}')
+
+
+
 # Читаем файл с секретным сообщением
 message = open("message.txt")
 mes = message.read()
@@ -43,11 +57,10 @@ def encoding(key, water, mes):
                 if i == k:
                     # print(mes[l])
                     water[k] = mes[l]
-                else:
-                    pass
+
 
         except IndexError:
-            pass
+            break
 
     print(water)
     for i in range(len(water)):
@@ -59,6 +72,7 @@ def encoding(key, water, mes):
         file.writelines(res_text)
         file.writelines(ending)
 
-
-print(f'key: {key}')
-encoding(str(key), water, mes)
+#generate_key(key)
+print(generate_key(key))
+print(key_list)
+encoding(generate_key(key), water, mes)
