@@ -1,5 +1,7 @@
 import time as tm
 from collections import OrderedDict
+import poem
+import random
 
 # Получение unix-времени и времени в формате гггг-мм-дд чч:мм:сс
 unix_time = int(tm.time())
@@ -11,14 +13,11 @@ str_date = tm.strftime('%Y-%m-%d %H:%M:%S', tm.localtime(unix_time))
 t = tm.strptime(str_date, '%Y-%m-%d %H:%M:%S')
 # print(int(tm.mktime(t)))
 key_list = []
-key = "".join(OrderedDict.fromkeys(str(unix_time)))
-
-
-
-
-
+key = "".join(str(unix_time))
+key = key * 10
 
 # Читаем файл с секретным сообщением
+
 message = open("message.txt")
 mes = message.read()
 # message.close()
@@ -27,7 +26,10 @@ print(mes)
 text = open('text.txt')
 
 # Читаем файл с бессмысленным текстом-водой
-content = text.read()
+text_pool = ['text0.txt','text3.txt','text4.txt']
+rand_num = random.randint(0, len(text_pool))
+stich = open(text_pool[rand_num])
+content = stich.read()
 water = content.split()
 print(water)
 water.copy()
@@ -53,22 +55,31 @@ ending = f'\n Сообщение отправлено: {str_date}'
 номер элемента сообщения - water[int(key[x])]
 
 '''
-def encoding(key, water, mes):
-    #y = key[x]
-    z = 0               #для индекса
-    for x in range(len(mes)):
-        try:
-            #print(mes[x])
-            #print(key[x])
-            #print(water[int(key[x])])
 
-            y = int(key[x - 1]) + int(key[x])
-            water[y] = mes[z]
-            #y = y + int(key[x+1])
-            #y += int(key[x+1])
-            z+=1
+
+def encoding(key, water, mes):
+    for z in range(0, 1):
+
+        try:
+            x = int()
+            q = int(0)
+            for i in range(0, 100):
+                p = int(key[i])
+                print("p=", p)
+                if i == 0:
+                    x = int(key[i])
+                else:
+                    if p == q:
+                        x = x + 1
+                        print("Здесь х=0")
+                    else:
+                        x = x + int(key[i])
+                print(x)
+                water[x] = mes[i]
+
+
         except IndexError:
-            break
+            print('ТЫ ТУПОЙ')
 
     print(water)
     for i in range(len(water)):
@@ -79,6 +90,8 @@ def encoding(key, water, mes):
     with open('result.txt', 'w') as file:
         file.writelines(res_text)
         file.writelines(ending)
-        #file.writelines(key)
+        # file.writelines(key)
+
 
 encoding(key, water, mes)
+poem.picture()
